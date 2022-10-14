@@ -1,5 +1,8 @@
+#pragma once
+
 #include <vector>
 #include "sfinae.hpp"
+#include "iterator.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <memory>
@@ -106,6 +109,14 @@ namespace ft
 			}
 
 			/*
+				Returns a copy of the allocator object associated with the vector.
+			*/
+			allocator_type get_allocator() const
+			{
+				return this->_allocator;
+			}
+
+			/*
 				Destructor, deconstructs the vector object
 			*/
 			~vector()
@@ -116,7 +127,7 @@ namespace ft
 					this->_allocator.deallocate(this->_array, this->_capacity);
 			}
 
-			//TODO: ASSIGN(for iterators), GET_ALLOCATOR, ITERATORS
+			//TODO: ASSIGN(for iterators), ITERATORS
 
 
 			//////////////////////////////////////////////////////////////
