@@ -78,7 +78,6 @@ namespace ft
 			*/
 			vector(const vector &v)
 			{
-				std::cout << "megafuck\n";
 				this->_allocator = v._allocator;
 				this->_size = v._size;
 				this->_capacity = v._capacity;
