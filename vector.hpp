@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <iterator>
+#include <type_traits> //TODO: pordzel enable_if ov xaxal
 
 namespace ft
 {
@@ -21,8 +22,9 @@ namespace ft
 		    typedef const value_type& const_reference;
 		    typedef typename Allocator::pointer pointer;
 		    typedef typename Allocator::const_pointer const_pointer;
-		    // typedef RandomAccessIterator<value_type> iterator;
-		    // typedef RandomAccessIterator<const value_type> const_iterator;
+		    typedef random_access_iterator<value_type> iterator;
+		    typedef random_access_iterator<const value_type> const_iterator;
+
 		    // typedef reverse_iterator<const_iterator> const_reverse_iterator;
 		    // typedef reverse_iterator<iterator> reverse_iterator;
 
@@ -121,7 +123,6 @@ namespace ft
 			*/
 			~vector()
 			{
-				std::cout << "lower your appetite:)\n";
 				this->clear();
 				if (this->_array != 0)
 					this->_allocator.deallocate(this->_array, this->_capacity);

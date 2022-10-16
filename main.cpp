@@ -13,8 +13,8 @@ int main()
     // std::cout << v1.size();
     // std::cout << v.size();
 
-    std::vector<int> v;
-    //ft::vector<int> v(5, 6);
+    //std::vector<int> v;
+    ft::vector<int> v(5, 6);
 
     for(int i = 0; i < v.size(); ++i)
     {
@@ -36,5 +36,5 @@ int main()
 
     // std::cout << m << "\n\n\n";
     std::cout << "\n";
-    std::cout << v.at(2) << " " << v.at(3);
+    // std::cout << v.at(2) << " " << v.at(3);
 }

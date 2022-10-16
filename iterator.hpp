@@ -68,7 +68,8 @@ namespace ft
 	template <class Iterator>
 	typename iterator_traits<Iterator>::difference_type    distance (Iterator first, Iterator last)
 	{
-		difference_type diff = 0;
+		
+		typename ft::iterator_traits<Iterator>::difference_type diff = 0;
 		while (first != last)
 		{
 			++first;
@@ -88,14 +89,14 @@ namespace ft
 	class	random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
 	{
 		private:
-			pointer _ptr;
+			typename T::pointer	_ptr;
 
 		public:
 			typedef std::iterator<ft::random_access_iterator_tag, T>	iterator_type;
 
 			random_access_iterator(): _ptr(0) {}
 
-			random_access_iterator(pointer p): _ptr(p) {}
+			random_access_iterator(typename T::pointer p): _ptr(p) {}
 
 			random_access_iterator(const random_access_iterator &r)
 			{
@@ -141,12 +142,12 @@ namespace ft
 				return this->_ptr <= r._ptr;
 			}
 
-			reference operator*()const
+			typename T::reference operator*()const
 			{
 				return *this->_ptr;
 			}
 
-			pointer operator->()const
+			typename T::pointer operator->()const
 			{
 				return this->_ptr;
 			}
@@ -179,8 +180,48 @@ namespace ft
 				return temp;
 			}
 
+			typename T::reference operator[](typename T::difference_type n)const
+			{
+				return *(this->_ptr + n);
+			}
 
+			random_access_iterator operator+=(typename T::difference_type n)
+			{
+				this->_ptr += n;
+				return this;
+			}
 
+			random_access_iterator operator-=(typename T::difference_type n)
+			{
+				this->_ptr -= n;
+				return this;
+			}
+
+			random_access_iterator operator+(typename T::difference_type n)
+			{
+				random_access_iterator temp = *this;
+				temp._ptr += n;
+				return temp;
+			}
+
+			random_access_iterator operator-(typename T::difference_type n)
+			{
+				random_access_iterator temp = *this;
+				temp._ptr -= n;
+				return temp;
+			}
+
+			typename T::difference_type operator-(const random_access_iterator &rhs)
+			{
+				typename T::difference_type diff = 0;
+				diff = this->_ptr - rhs._ptr;
+				return diff;
+			}
+
+			typename T::pointer base()const
+			{
+				return this->_ptr;
+			}
 	};
 
 }
