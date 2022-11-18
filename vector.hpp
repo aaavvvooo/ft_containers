@@ -7,7 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <iterator>
-#include <type_traits> //TODO: pordzel enable_if ov xaxal
+#include <type_traits>
 
 namespace ft
 {
@@ -22,11 +22,10 @@ namespace ft
 		    typedef const value_type& const_reference;
 		    typedef typename Allocator::pointer pointer;
 		    typedef typename Allocator::const_pointer const_pointer;
-		    typedef random_access_iterator<value_type> iterator;
-		    typedef random_access_iterator<const value_type> const_iterator;
-
-		    // typedef reverse_iterator<const_iterator> const_reverse_iterator;
-		    // typedef reverse_iterator<iterator> reverse_iterator;
+		    typedef typename ft::random_access_iterator<value_type> iterator;
+		    typedef typename ft::random_access_iterator<const value_type> const_iterator;
+		    typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+		    typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 		private:
 			size_type		_size;
@@ -39,9 +38,7 @@ namespace ft
 			/*
 				Default constructor creates an empty vector
 			*/
-			explicit vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _array(NULL), _allocator(alloc) {
-				std::cout << "fuck#1\n";
-			}
+			explicit vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _array(NULL), _allocator(alloc) {}
 
 			/*
 				Parametryzed constructor, creates a vector of n copies of val
@@ -73,9 +70,28 @@ namespace ft
 				Creates a vector from the range[first, last)
 			*/
 			template<class InputIt>
-			vector(InputIt first, InputIt last, char c, const allocator_type& alloc = allocator_type())
+			vector(InputIt first, InputIt last, const allocator_type& alloc = allocator_type(),
+					typename enable_if<!is_integral<InputIt>::value, bool>::type* = 0)
 			{
-				//TODO: enable_if?
+				difference_type dist = distance(first, last);
+				this->_array = this->_allocator.allocate(dist);
+				this->_capacity = dist;
+				this->_size = 0;
+				this->_allocator = alloc;
+				try
+				{
+					while(first != last)
+					{
+						this->push_back(*first);
+						++first;
+					}
+				}
+				catch(...)
+				{
+					this->clear();
+					_allocator.deallocate(_array, dist);
+					throw;
+				}
 			}
 
 			/*
@@ -89,7 +105,6 @@ namespace ft
 				this->_array = this->_allocator.allocate(this->_capacity);
 				for(size_type i = 0; i < this->size(); ++i)
 					this->push_back(v._array[i]);
-					//TODO: push_back:)
 			}
 
 			/*
@@ -128,7 +143,7 @@ namespace ft
 					this->_allocator.deallocate(this->_array, this->_capacity);
 			}
 
-			//TODO: ASSIGN(for iterators), ITERATORS
+			//TODO: ASSIGN(for iterators)
 
 
 			//////////////////////////////////////////////////////////////
@@ -281,6 +296,53 @@ namespace ft
 
 			//////////////////////////////////////////////////////////////
 			/*															*/
+			/*					 	Iterators							*/
+			/*															*/
+			//////////////////////////////////////////////////////////////
+
+			iterator			begin()
+			{
+				return iterator(this->_array);
+			}
+
+    		const_iterator		cbegin() const
+			{
+				return const_iterator(this->_array);
+			}
+
+			iterator			end()
+			{
+				return iterator(this->_array + this->_size);
+			}
+
+			const_iterator		cend()const
+			{
+				return const_iterator(this->_array + this->_size);
+			}
+
+			reverse_iterator rbegin()
+			{
+				return reverse_iterator(this->end());
+			}
+
+			const_reverse_iterator crbegin()const
+			{
+				return reverse_iterator(this->cend());
+			}
+
+			reverse_iterator rend()
+			{
+				return reverse_iterator(this->begin());
+			}
+
+			const_reverse_iterator crend()const
+			{
+				return reverse_iterator(this->cbegin());
+			}
+
+
+			//////////////////////////////////////////////////////////////
+			/*															*/
 			/*						Modifiers							*/
 			/*															*/
 			//////////////////////////////////////////////////////////////
@@ -304,6 +366,41 @@ namespace ft
 				}			
 			}
 
+			// template< class InputIt >
+			// void assign(InputIt first, InputIt last)
+			// {
+
+			// }
+
+
+			void resize(size_type count)
+			{
+				if (n > this->max_size())
+					throw std::length_error("you don't have enough memory, ara");
+			}
+			
+			/*
+				Appends the given element value to the end of the container.
+			*/
+			void push_back(const T& value)
+			{
+				if (this->_size + 1 > this->_capacity)
+				{
+					this->reserve(this->_capacity + 1); //change to resize()
+				}
+				this->_allocator.construct(this->_array + this->_size, value);
+				++size();
+			}
+
+			/*
+				Removes the last element of the container.
+			*/
+			void pop_back()
+			{
+				this->_allocator.destroy(this->_array + this->_size);
+				--this->_size;
+			}
+
 			/*
 				Deletes the vector
 			*/
@@ -313,10 +410,6 @@ namespace ft
 					this->_allocator.destroy(this->_array + i);
 				this->_size = 0;
 			}
-
-
-
-
     };
 }
 
