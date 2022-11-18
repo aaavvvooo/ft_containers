@@ -64,6 +64,8 @@
     "vector": "cpp",
     "__functional_base_03": "cpp",
     "__functional_03": "cpp",
-    "memory_resource": "cpp"
+    "memory_resource": "cpp",
+    "__bits": "cpp",
+    "clocale": "cpp"
   }
 }

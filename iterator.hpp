@@ -18,12 +18,11 @@ namespace ft
 	///////////////////////////////////////////////////////////////
 
 
-template <class Category, class T, class Distance = ptrdiff_t,
+template <class Category, class T, class Distance = std::ptrdiff_t,
         class Pointer = T*, class Reference = T&>
         class iterator
         {
             public:
-               
                 typedef T           value_type;
                 typedef Distance    difference_type;
                 typedef Pointer     pointer;
@@ -51,7 +50,7 @@ template <class Category, class T, class Distance = ptrdiff_t,
     template <class T> 
 	struct iterator_traits<T*>
     {
-        typedef ptrdiff_t                       difference_type;
+        typedef std::ptrdiff_t                       difference_type;
         typedef T                               value_type;
         typedef T*                              pointer;
         typedef T&                              reference;
@@ -62,7 +61,7 @@ template <class Category, class T, class Distance = ptrdiff_t,
     template <class T> 
 	class iterator_traits<const T*>
     {
-        typedef ptrdiff_t                       difference_type;
+        typedef std::ptrdiff_t                       difference_type;
         typedef T                               value_type;
         typedef const T*                        pointer;
         typedef const T&                        reference;

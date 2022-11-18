@@ -1,8 +1,10 @@
 Vector:
     .(c, r)begin, (c, r)end +
+    .assign (for iters) + 
     .insert(3 overloads)
     .erase(2 overloads)
     .push_back + 
     .pop_back +
-    .resize
+    .resize +
     .swap 
+    .vector operators(==, !=, ...)
