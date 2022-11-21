@@ -432,11 +432,27 @@ namespace ft
 			*/
 			iterator insert(const_iterator pos, const T& value)
 			{
-				pointer _temp;
-				
-
+				size_type old_size = this->_size;
+				size_type pos_index = ft::distance(this->cbegin(), pos);
+				if (this->_capacity == this->_size)
+					this->reserve(this->_size * 2);
+				++this->_size;
+				size_type new_size = this->_size;
+				while (new_size > pos_index)
+				{
+					this->_array[new_size] = this->_array[old_size];
+					--old_size;
+					--new_size;
+				}
+				this->_array[new_size] = value;
+				return iterator(this->_array + pos_index);
 			}
-			
+
+			iterator insert(const_iterator pos, size_type count, const T& value)
+			{
+				
+			}	
+
 			/*
 				Appends the given element value to the end of the container.
 			*/
