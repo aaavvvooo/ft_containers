@@ -1,10 +1,16 @@
-Vector:
+Vector: +
     .(c, r)begin, (c, r)end +
     .assign (for iters) + 
-    .insert(3 overloads)
-    .erase(2 overloads)
+    .insert(3 overloads) +
+    .erase(2 overloads) +
     .push_back + 
     .pop_back +
     .resize +
-    .swap 
-    .vector operators(==, !=, ...)
+    .swap +
+    .vector operators(==, !=, ...) +
+    fix mli test errors +
+
+Map:
+    pair +
+    bst
+    mapi functions

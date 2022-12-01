@@ -1,11 +1,10 @@
 #pragma once
-#include <deque>
-
-//TODO: when finish vector, replace deque with ft::vector
+#include "vector.hpp"
+// #include <vector>
 
 namespace ft
 {
-    template <class T, class Container = std::deque<T> >  class stack
+    template <class T, class Container = ft::vector<T> >  class stack
     {
         public:
             typedef Container                                container_type;
